@@ -377,7 +377,7 @@ var CrosswordUtils = {
                 if(cell == null){
                     var char = "&nbsp;";
                 } else {
-                    var char = cell['char'];
+                    var char = cell['char'].toUpperCase();
                     var is_start_of_word = (cell['across'] && cell['across']['is_start_of_word']) || (cell['down'] && cell['down']['is_start_of_word']);
                 }
 
