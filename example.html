@@ -4,6 +4,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Crossword</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/TableExport/3.3.13/js/tableexport.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 <style type="text/css">
 #crossword {
     text-align:center;
@@ -76,6 +79,37 @@ window.onload = function(){
     // make a nice legend for the clues
     var legend = cw.getLegend(grid);
     addLegendToPage(legend);
+
+    $('#export_crossword').on('click', function() {
+      	console.log('exporting');
+      	//$('#preview-table').tableExport({type:'png',escape:'false'});
+
+      	html2canvas($('#crossword'), {
+      		onrendered: function(canvas) {
+      			var img = canvas.toDataURL("image/png");
+      			//var img = canvas.toDataURL("application/octet-stream");
+
+      			function saveAs(uri, filename) {
+      			    var link = document.createElement('a');
+      			    if (typeof link.download === 'string') {
+      			        document.body.appendChild(link); // Firefox requires the link to be in the body
+      			        link.download = filename;
+      			        link.href = uri;
+      			        link.click();
+      			        document.body.removeChild(link); // remove the link when done
+      			    } else {
+      			        location.replace(uri);
+      			    }
+      			}
+
+      			var uri = img.replace(/^data:image\/[^;]/, 'data:application/octet-stream');
+      			//window.open(url);
+      			saveAs(uri, 'crossword.png');
+
+
+      		}
+      	});
+      });
 };
 
 function addLegendToPage(groups){
@@ -107,6 +141,7 @@ function addLegendToPage(groups){
             </tr>
         </tbody>
     </table>
+    <button id="export_crossword">Export Crossword</button>
 
 </body>
 </html>
