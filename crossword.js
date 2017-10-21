@@ -376,14 +376,12 @@ var CrosswordUtils = {
                 var is_start_of_word = false;
                 if(cell == null){
                     var char = "&nbsp;";
-                    var css_class = "no-border";
                 } else {
                     var char = cell['char'];
-                    var css_class = "";
                     var is_start_of_word = (cell['across'] && cell['across']['is_start_of_word']) || (cell['down'] && cell['down']['is_start_of_word']);
                 }
 
-                html.push("<td class='" + css_class + "' title='" + r + ", " + c + "'>");		
+                html.push("<td title='" + r + ", " + c + "'>");
 
                 if(show_answers) {
                     html.push(char);
