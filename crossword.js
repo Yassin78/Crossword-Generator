@@ -19,7 +19,7 @@ function WordElement(word, index){
     this.index = index; // use to map this node to its word or clue
 }
 
-function Crossword(words_in, clues_in){
+function Crossword(words_in){
     var GRID_ROWS = 50;
     var GRID_COLS = 50;
     // This is an index of the positions of the char in the crossword (so we know where we can potentially place words)
@@ -106,33 +106,6 @@ function Crossword(words_in, clues_in){
     // returns the list of WordElements that can't fit on the crossword
     this.getBadWords = function(){
         return bad_words;
-    }
-
-    // get two arrays ("across" and "down") that contain objects describing the
-    // topological position of the word (e.g. 1 is the first word starting from
-    // the top left, going to the bottom right), the index of the word (in the
-    // original input list), the clue, and the word itself
-    this.getLegend = function(grid){
-        var groups = {"across" : [], "down" : []};
-        var position = 1;
-        for(var r = 0; r < grid.length; r++){
-            for(var c = 0; c < grid[r].length; c++){
-                var cell = grid[r][c];
-                var increment_position = false;
-                // check across and down
-                for(var k in groups){
-                    // does a word start here? (make sure the cell isn't null, first)
-                    if(cell && cell[k] && cell[k]['is_start_of_word']){
-                        var index = cell[k]['index'];
-                        groups[k].push({"position" : position, "index" : index, "clue" : clues_in[index], "word" : words_in[index]});
-                        increment_position = true;
-                    }
-                }
-
-                if(increment_position) position++;
-            }
-        }
-        return groups;
     }
 
     // move the grid onto the smallest grid that will fit it
@@ -342,7 +315,6 @@ function Crossword(words_in, clues_in){
 
     // constructor
     if(words_in.length < 2) throw "A crossword must have at least 2 words";
-    if(words_in.length != clues_in.length) throw "The number of words must equal the number of clues";
 
     // build the grid;
     var grid = new Array(GRID_ROWS);
